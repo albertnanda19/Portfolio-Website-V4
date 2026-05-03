@@ -199,7 +199,7 @@ export function Hero() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.5, delay: 1.05 }}
               >
-                {[{ n: "6+", l: "Years" }, { n: "20+", l: "Projects" }, { n: "10+", l: "Stacks" }].map((s) => (
+                {[{ n: "3+", l: "Years" }, { n: "13+", l: "Projects" }, { n: "10+", l: "Stacks" }].map((s) => (
                   <div key={s.l}>
                     <div className="text-gradient" style={{ fontSize: "1.75rem", fontWeight: 900, lineHeight: 1 }}>{s.n}</div>
                     <div style={{ fontSize: "0.8125rem", color: "var(--fg-subtle)", marginTop: "5px", fontWeight: 500 }}>{s.l}</div>

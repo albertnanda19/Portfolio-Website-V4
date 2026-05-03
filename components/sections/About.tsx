@@ -8,15 +8,15 @@ import { EncryptedTextOnView } from "@/components/ui/EncryptedText";
 import { ConstellationBg } from "@/components/ui/ConstellationBg";
 
 const highlights = [
-  { icon: "🚀", title: "6+ Years", sub: "Professional experience" },
-  { icon: "🏗️", title: "20+ Projects", sub: "Shipped to production" },
-  { icon: "☁️", title: "Multi-cloud", sub: "AWS · GCP · Azure" },
-  { icon: "👥", title: "Team Lead", sub: "Engineering teams of 8+" },
+  { icon: "🚀", title: "3+ Years", sub: "Professional experience" },
+  { icon: "🏗️", title: "13+ Projects", sub: "Built & shipped" },
+  { icon: "🎯", title: "Frontend Focus", sub: "React · Next.js · TypeScript" },
+  { icon: "👥", title: "Tech Lead", sub: "Cross-team leadership" },
 ];
 
 const bios = [
-  "Hi, I'm Albert — a Software Engineer based in Indonesia with 6+ years of experience building digital products from the ground up. I specialize in creating robust full-stack applications, data infrastructure, and developer tools that scale.",
-  "My journey started in a campus IT organization where I fell in love with building things. Since then, I've worked across startups and enterprises — always with a bias toward shipping quality software.",
+  "Hi, I'm Albert — a Software Engineer based in Indonesia with 3+ years of experience building digital products from the ground up. I specialize in creating robust full-stack applications and scalable frontend systems.",
+  "My journey started in a campus IT organization where I fell in love with building things. Since then, I've worked across startups and professional product teams — always with a bias toward shipping quality software.",
 ];
 
 export function About() {
@@ -69,17 +69,11 @@ export function About() {
                   border: "1px solid var(--border)",
                   overflow: "hidden", position: "relative",
                 }}>
-                  <div style={{
-                    position: "absolute", inset: 0,
-                    background: "linear-gradient(145deg, rgba(88,166,255,0.1), rgba(163,113,247,0.07))",
-                    display: "flex", flexDirection: "column",
-                    alignItems: "center", justifyContent: "center",
-                  }}>
-                    <span style={{ fontSize: "2.75rem" }}>👨‍💻</span>
-                    <span style={{ fontSize: "0.625rem", color: "var(--fg-subtle)", marginTop: "8px", textAlign: "center", padding: "0 8px" }}>
-                      main.jpg
-                    </span>
-                  </div>
+                  <img
+                    src="/images/my-pics/primary-pics.jpeg"
+                    alt="Albert Mangiri"
+                    style={{ position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover" }}
+                  />
                   <div style={{ position: "absolute", top: "8px", right: "8px", width: "18px", height: "18px", borderTop: "2px solid var(--blue)", borderRight: "2px solid var(--blue)", borderTopRightRadius: "5px" }} />
                   <div style={{ position: "absolute", bottom: "8px", left: "8px", width: "18px", height: "18px", borderBottom: "2px solid var(--purple)", borderLeft: "2px solid var(--purple)", borderBottomLeftRadius: "5px" }} />
                 </div>
@@ -127,17 +121,20 @@ export function About() {
 
             {/* Extra photos */}
             <div style={{ display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: "8px" }}>
-              {[2, 3, 4].map((n) => (
-                <div key={n} style={{
+              {[
+                { src: "/images/my-pics/crypnity-presentation.jpeg", alt: "Crypnity presentation" },
+                { src: "/images/my-pics/batik-presentation.webp", alt: "Batik presentation" },
+                { src: "/images/my-pics/primary-pics.jpeg", alt: "Albert Mangiri" },
+              ].map((photo) => (
+                <div key={photo.src} style={{
                   aspectRatio: "1",
                   borderRadius: "12px",
                   background: "var(--bg-card)",
                   border: "1px solid var(--border)",
-                  display: "flex", flexDirection: "column",
-                  alignItems: "center", justifyContent: "center",
+                  overflow: "hidden",
+                  position: "relative",
                 }}>
-                  <span style={{ fontSize: "1.4rem" }}>📸</span>
-                  <span style={{ fontSize: "0.625rem", color: "var(--fg-subtle)", marginTop: "4px" }}>photo-{n}.jpg</span>
+                  <img src={photo.src} alt={photo.alt} style={{ width: "100%", height: "100%", objectFit: "cover" }} />
                 </div>
               ))}
             </div>

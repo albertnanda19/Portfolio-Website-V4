@@ -72,18 +72,20 @@ export function Certificates() {
                 <Award size={22} style={{ color: "var(--orange)" }} />
               </div>
 
-              {/* Image placeholder */}
+              {/* Certificate image */}
               <div style={{
                 aspectRatio: "16/9",
                 borderRadius: "10px",
                 background: "var(--bg-canvas)",
                 border: "1px solid var(--border)",
-                display: "flex", flexDirection: "column",
-                alignItems: "center", justifyContent: "center",
+                overflow: "hidden",
                 marginBottom: "20px",
               }}>
-                <span style={{ fontSize: "2.5rem" }}>🏆</span>
-                <span style={{ fontSize: "0.75rem", color: "var(--fg-subtle)", marginTop: "8px" }}>cert-{i + 1}.jpg</span>
+                <img
+                  src={cert.image}
+                  alt={cert.title}
+                  style={{ width: "100%", height: "100%", objectFit: "cover" }}
+                />
               </div>
 
               <h3 style={{ fontWeight: 700, fontSize: "1rem", marginBottom: "6px", lineHeight: 1.3 }}>

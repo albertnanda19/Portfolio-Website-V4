@@ -11,10 +11,10 @@ import { EncryptedTextOnView } from "@/components/ui/EncryptedText";
 
 const links = [
   { Icon: Mail, label: "Email", value: contact.email, href: `mailto:${contact.email}`, color: "#f85149" },
-  { Icon: FaGithub, label: "GitHub", value: "@albertmangiri", href: contact.github, color: "#e6edf3" },
+  { Icon: FaGithub, label: "GitHub", value: "@albertnanda19", href: contact.github, color: "#e6edf3" },
   { Icon: FaLinkedin, label: "LinkedIn", value: "Albert Mangiri", href: contact.linkedin, color: "#58a6ff" },
-  { Icon: FaInstagram, label: "Instagram", value: "@albertmangiri", href: contact.instagram, color: "#f778ba" },
-  { Icon: Globe, label: "Website", value: "albertmangiri.dev", href: contact.website, color: "#3fb950" },
+  { Icon: FaInstagram, label: "Instagram", value: "@albert.fnc", href: contact.instagram, color: "#f778ba" },
+  { Icon: Globe, label: "Website", value: "albertm.vercel.app", href: contact.website, color: "#3fb950" },
 ];
 
 function InputField({

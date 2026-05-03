@@ -1,21 +1,24 @@
 import {
   SiReact, SiNextdotjs, SiVuedotjs, SiTypescript, SiJavascript,
   SiTailwindcss, SiSass, SiRedux, SiFramer, SiHtml5,
+  SiBootstrap, SiChakraui, SiShadcnui, SiMui, SiReactquery,
   SiNodedotjs, SiExpress, SiNestjs, SiPython, SiFastapi,
-  SiDjango, SiGo, SiGraphql, SiLaravel,
+  SiDjango, SiGo, SiGraphql, SiLaravel, SiSpringboot,
+  SiClerk, SiPrisma, SiFastify, SiCodeigniter,
   SiPostgresql, SiMysql, SiMongodb, SiRedis, SiElasticsearch,
-  SiSupabase, SiFirebase, SiSqlite,
+  SiSupabase, SiFirebase, SiSqlite, SiClickhouse, SiPlanetscale,
   SiDocker, SiKubernetes, SiGithubactions, SiJenkins,
   SiGooglecloud, SiNginx, SiLinux, SiTerraform,
-  SiApachespark, SiApachekafka, SiPandas, SiNumpy, SiJupyter,
-  SiGit, SiGithub, SiJira, SiNotion, SiSlack, SiPostman, SiFigma,
-  SiGrafana, SiPrometheus, SiDatadog, SiSentry,
+  SiApachespark, SiApachekafka, SiApacheairflow, SiDbt,
+  SiPandas, SiNumpy, SiJupyter, SiStreamlit, SiMlflow, SiDvc, SiTrino, SiMinio,
+  SiGit, SiGithub, SiJira, SiNotion, SiSlack, SiPostman, SiFigma, SiInsomnia,
+  SiGrafana, SiPrometheus, SiDatadog, SiSentry, SiOpentelemetry, SiJaeger, SiNewrelic,
 } from "react-icons/si";
 import { IconType } from "react-icons";
 import { Cloud } from "lucide-react";
 
-// Map tech name → SI icon component
 export const techIconMap: Record<string, IconType | React.ComponentType<{ size?: number; color?: string; style?: React.CSSProperties }>> = {
+  // Frontend
   "React": SiReact,
   "Next.js": SiNextdotjs,
   "Vue.js": SiVuedotjs,
@@ -26,7 +29,13 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Redux": SiRedux,
   "Framer Motion": SiFramer,
   "HTML5": SiHtml5,
+  "Bootstrap": SiBootstrap,
+  "Chakra UI": SiChakraui,
+  "shadcn/ui": SiShadcnui,
+  "Material UI": SiMui,
+  "React Query": SiReactquery,
 
+  // Backend
   "Node.js": SiNodedotjs,
   "Express.js": SiExpress,
   "NestJS": SiNestjs,
@@ -36,7 +45,13 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Go": SiGo,
   "GraphQL": SiGraphql,
   "Laravel": SiLaravel,
+  "Spring Boot": SiSpringboot,
+  "Clerk": SiClerk,
+  "Prisma": SiPrisma,
+  "Fastify": SiFastify,
+  "CodeIgniter 4": SiCodeigniter,
 
+  // Database
   "PostgreSQL": SiPostgresql,
   "MySQL": SiMysql,
   "MongoDB": SiMongodb,
@@ -45,23 +60,36 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Supabase": SiSupabase,
   "Firebase": SiFirebase,
   "SQLite": SiSqlite,
+  "ClickHouse": SiClickhouse,
+  "PlanetScale": SiPlanetscale,
 
+  // DevOps
   "Docker": SiDocker,
   "Kubernetes": SiKubernetes,
   "GitHub Actions": SiGithubactions,
   "Jenkins": SiJenkins,
-  "AWS": Cloud, // fallback
+  "AWS": Cloud,
   "GCP": SiGooglecloud,
   "Nginx": SiNginx,
   "Linux": SiLinux,
   "Terraform": SiTerraform,
 
+  // Data
   "Apache Spark": SiApachespark,
+  "PySpark": SiApachespark,
   "Apache Kafka": SiApachekafka,
+  "Airflow": SiApacheairflow,
+  "dbt": SiDbt,
   "Pandas": SiPandas,
   "NumPy": SiNumpy,
   "Jupyter": SiJupyter,
+  "Streamlit": SiStreamlit,
+  "MLflow": SiMlflow,
+  "DVC": SiDvc,
+  "Trino": SiTrino,
+  "MinIO": SiMinio,
 
+  // Tools
   "Git": SiGit,
   "GitHub": SiGithub,
   "Jira": SiJira,
@@ -69,15 +97,20 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Slack": SiSlack,
   "Postman": SiPostman,
   "Figma": SiFigma,
+  "Insomnia": SiInsomnia,
 
+  // Monitoring
   "Grafana": SiGrafana,
   "Prometheus": SiPrometheus,
   "Datadog": SiDatadog,
   "Sentry": SiSentry,
+  "OpenTelemetry": SiOpentelemetry,
+  "Jaeger": SiJaeger,
+  "New Relic": SiNewrelic,
 };
 
-// SI brand colors
 export const techColorMap: Record<string, string> = {
+  // Frontend
   "React": "#61DAFB",
   "Next.js": "#ffffff",
   "Vue.js": "#4FC08D",
@@ -88,31 +121,52 @@ export const techColorMap: Record<string, string> = {
   "Redux": "#764ABC",
   "Framer Motion": "#FF0055",
   "HTML5": "#E34F26",
+  "Bootstrap": "#7952B3",
+  "Chakra UI": "#319795",
+  "shadcn/ui": "#e2e8f0",
+  "Material UI": "#007FFF",
+  "React Query": "#FF4154",
+  "Zustand": "#f97316",
 
+  // Backend
   "Node.js": "#339933",
-  "Express.js": "#ffffff",
+  "Express.js": "#e2e8f0",
   "NestJS": "#E0234E",
   "Python": "#3776AB",
   "FastAPI": "#009688",
-  "Django": "#092E20",
+  "Django": "#44B78B",
   "Go": "#00ADD8",
   "GraphQL": "#E10098",
   "Laravel": "#FF2D20",
+  "Spring Boot": "#6DB33F",
+  "Java": "#ED8B00",
   "REST API": "#58a6ff",
   "WebSocket": "#a371f7",
   "gRPC": "#6aaa64",
+  "Protocol Buffers": "#a371f7",
+  "JWT": "#FB015B",
+  "Clerk": "#6C47FF",
+  "Prisma": "#5a67d8",
+  "Fastify": "#e2e8f0",
+  "CodeIgniter 4": "#EF4223",
+  "NATS JetStream": "#27AAE1",
 
+  // Database
   "PostgreSQL": "#4169E1",
   "MySQL": "#4479A1",
   "MongoDB": "#47A248",
   "Redis": "#DC382D",
-  "Elasticsearch": "#005571",
+  "Elasticsearch": "#00BFB3",
   "Supabase": "#3ECF8E",
   "Firebase": "#FFCA28",
   "SQLite": "#003B57",
   "DynamoDB": "#FF9900",
   "ClickHouse": "#FFCC00",
+  "TimescaleDB": "#FDB515",
+  "PlanetScale": "#a371f7",
+  "Convex": "#F9826C",
 
+  // DevOps
   "Docker": "#2496ED",
   "Kubernetes": "#326CE5",
   "AWS": "#FF9900",
@@ -124,36 +178,48 @@ export const techColorMap: Record<string, string> = {
   "CI/CD": "#58a6ff",
   "GitHub Actions": "#2088FF",
 
+  // Data
   "Apache Spark": "#E25A1C",
-  "Apache Kafka": "#231F20",
+  "PySpark": "#E25A1C",
+  "Apache Kafka": "#7c8cf8",
   "Airflow": "#017CEE",
   "dbt": "#FF694B",
-  "Pandas": "#150458",
-  "NumPy": "#013243",
+  "Pandas": "#5C0091",
+  "NumPy": "#4DABCF",
   "Jupyter": "#F37626",
   "Power BI": "#F2C811",
   "Tableau": "#E97627",
-  "Looker": "#4285F4",
+  "Streamlit": "#FF4B4B",
+  "MLflow": "#0194E2",
+  "DVC": "#945DD6",
+  "Trino": "#DD00A1",
+  "MinIO": "#C72E49",
+  "Delta Lake": "#00ADD8",
+  "Debezium": "#E0234E",
+  "Great Expectations": "#2ECC71",
 
+  // Tools
   "VS Code": "#007ACC",
   "Postman": "#FF6C37",
   "Figma": "#F24E1E",
   "Git": "#F05032",
-  "GitHub": "#ffffff",
+  "GitHub": "#e2e8f0",
   "Jira": "#0052CC",
-  "Notion": "#ffffff",
+  "Notion": "#e2e8f0",
   "Slack": "#4A154B",
   "DBeaver": "#58a6ff",
   "APIDog": "#a371f7",
   "TablePlus": "#3fb950",
   "Insomnia": "#4000BF",
 
+  // Monitoring
   "Grafana": "#F46800",
   "Prometheus": "#E6522C",
   "Datadog": "#632CA6",
   "Sentry": "#362D59",
-  "ELK Stack": "#005571",
+  "ELK Stack": "#00BFB3",
   "New Relic": "#00AC69",
   "Jaeger": "#60D0E4",
   "OpenTelemetry": "#f5a800",
+  "Zipkin": "#FE8A00",
 };
