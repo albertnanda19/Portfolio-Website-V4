@@ -95,7 +95,7 @@ export function SplashScreen() {
           animate={{ opacity: 0.5 }}
           transition={{ delay: 1.5 }}
         >
-          © 2025 · albertmangiri.dev
+          © 2026 · albertmangiri.dev
         </motion.p>
 
         {/* AM monogram with glow */}

@@ -1,16 +1,85 @@
 "use client";
 
 import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { useInView } from "react-intersection-observer";
 import { projects, type Project } from "@/lib/data";
-import { ExternalLink, ChevronLeft, ChevronRight, X, Code2 } from "lucide-react";
+import { ExternalLink, ChevronLeft, ChevronRight, X, Code2, Maximize2 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { WaveDotsBg } from "@/components/ui/WaveDotsBg";
 
-function ImageCarousel({ images, title, compact = true }: { images: string[]; title: string; compact?: boolean }) {
+function ImageLightbox({ images, initialIndex, title, onClose }: { images: string[]; initialIndex: number; title: string; onClose: () => void }) {
+  const [idx, setIdx] = useState(initialIndex);
+
+  const goPrev = useCallback(() => setIdx((i) => (i - 1 + images.length) % images.length), [images.length]);
+  const goNext = useCallback(() => setIdx((i) => (i + 1) % images.length), [images.length]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => { document.removeEventListener("keydown", handler); document.body.style.overflow = ""; };
+  }, [onClose, goPrev, goNext]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      style={{ position: "fixed", inset: 0, background: "rgba(0,0,0,0.92)", backdropFilter: "blur(16px)", zIndex: 9500, display: "flex", alignItems: "center", justifyContent: "center", padding: "20px", cursor: "zoom-out" }}
+    >
+      <button
+        onClick={onClose}
+        style={{ position: "absolute", top: "20px", right: "20px", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "50%", width: "40px", height: "40px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", zIndex: 10 }}
+      >
+        <X size={18} />
+      </button>
+
+      <div style={{ position: "absolute", top: "24px", left: "50%", transform: "translateX(-50%)", color: "rgba(255,255,255,0.6)", fontSize: "0.8125rem", fontWeight: 600 }}>
+        {title} — {idx + 1} / {images.length}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={idx}
+          src={images[idx]}
+          alt={`${title} screenshot ${idx + 1}`}
+          onClick={(e) => e.stopPropagation()}
+          style={{ maxWidth: "92vw", maxHeight: "85vh", objectFit: "contain", borderRadius: "12px", cursor: "default", boxShadow: "0 32px 80px rgba(0,0,0,0.6)" }}
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+        />
+      </AnimatePresence>
+
+      {images.length > 1 && (
+        <>
+          <button
+            onClick={(e) => { e.stopPropagation(); goPrev(); }}
+            style={{ position: "absolute", left: "20px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "50%", width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", zIndex: 10 }}
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            onClick={(e) => { e.stopPropagation(); goNext(); }}
+            style={{ position: "absolute", right: "20px", top: "50%", transform: "translateY(-50%)", background: "rgba(255,255,255,0.08)", border: "1px solid rgba(255,255,255,0.15)", borderRadius: "50%", width: "48px", height: "48px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", zIndex: 10 }}
+          >
+            <ChevronRight size={22} />
+          </button>
+        </>
+      )}
+    </motion.div>
+  );
+}
+
+function ImageCarousel({ images, title, compact = true, onMaximize }: { images: string[]; title: string; compact?: boolean; onMaximize?: (index: number) => void }) {
   const [idx, setIdx] = useState(0);
   const [hovered, setHovered] = useState(false);
 
@@ -84,17 +153,32 @@ function ImageCarousel({ images, title, compact = true }: { images: string[]; ti
           </div>
         </>
       )}
+
+      <AnimatePresence>
+        {hovered && onMaximize && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }}
+            transition={{ duration: 0.15 }}
+            onClick={(e) => { e.stopPropagation(); onMaximize(idx); }}
+            style={{ position: "absolute", top: "8px", left: "8px", background: "rgba(0,0,0,0.68)", border: "1px solid rgba(255,255,255,0.12)", borderRadius: "8px", width: compact ? "26px" : "34px", height: compact ? "26px" : "34px", display: "flex", alignItems: "center", justifyContent: "center", cursor: "pointer", color: "white", zIndex: 5 }}
+          >
+            <Maximize2 size={compact ? 11 : 15} />
+          </motion.button>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
 
 function ProjectModal({ project, onClose }: { project: Project; onClose: () => void }) {
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+
   useEffect(() => {
-    const esc = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+    const esc = (e: KeyboardEvent) => { if (e.key === "Escape" && lightboxIndex === null) onClose(); };
     document.addEventListener("keydown", esc);
     document.body.style.overflow = "hidden";
     return () => { document.removeEventListener("keydown", esc); document.body.style.overflow = ""; };
-  }, [onClose]);
+  }, [onClose, lightboxIndex]);
 
   return (
     <motion.div
@@ -135,7 +219,7 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
         <div style={{ overflow: "auto", flex: 1 }} className="no-scrollbar">
           {/* Large image carousel */}
           <div style={{ width: "100%", flexShrink: 0 }}>
-            <ImageCarousel images={project.images} title={project.title} compact={false} />
+            <ImageCarousel images={project.images} title={project.title} compact={false} onMaximize={(idx) => setLightboxIndex(idx)} />
           </div>
 
           <div style={{ padding: "24px" }}>
@@ -209,6 +293,17 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
           </div>
         </div>
       </motion.div>
+
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <ImageLightbox
+            images={project.images}
+            initialIndex={lightboxIndex}
+            title={project.title}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </motion.div>
   );
 }
@@ -216,8 +311,12 @@ function ProjectModal({ project, onClose }: { project: Project; onClose: () => v
 function ProjectCard({ project, index, onDetails }: { project: Project; index: number; onDetails: () => void }) {
   const { ref, inView } = useInView({ threshold: 0.08, triggerOnce: true });
   const hasDetails = !!(project.highlights?.length || project.longDescription);
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
+  const [mounted, setMounted] = useState(false);
+  useEffect(() => setMounted(true), []);
 
   return (
+    <>
     <TiltCard maxTilt={4} style={{ borderRadius: "16px", height: "100%" }}>
       <motion.article
         ref={ref}
@@ -229,7 +328,7 @@ function ProjectCard({ project, index, onDetails }: { project: Project; index: n
       >
         {/* Image carousel */}
         <div style={{ position: "relative", flexShrink: 0 }}>
-          <ImageCarousel images={project.images} title={project.title} />
+          <ImageCarousel images={project.images} title={project.title} onMaximize={(idx) => setLightboxIndex(idx)} />
           {project.featured && (
             <span style={{ position: "absolute", top: "10px", left: "10px", padding: "3px 10px", borderRadius: "100px", fontSize: "0.6875rem", fontWeight: 700, background: "rgba(88,166,255,0.18)", color: "var(--blue)", border: "1px solid rgba(88,166,255,0.3)", zIndex: 5 }}>
               ★ Featured
@@ -296,6 +395,21 @@ function ProjectCard({ project, index, onDetails }: { project: Project; index: n
         </div>
       </motion.article>
     </TiltCard>
+
+    {mounted && createPortal(
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <ImageLightbox
+            images={project.images}
+            initialIndex={lightboxIndex}
+            title={project.title}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
+      </AnimatePresence>,
+      document.body
+    )}
+    </>
   );
 }
 

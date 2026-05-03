@@ -13,12 +13,20 @@ import {
   SiPandas, SiNumpy, SiJupyter, SiStreamlit, SiMlflow, SiDvc, SiTrino, SiMinio,
   SiGit, SiGithub, SiJira, SiNotion, SiSlack, SiPostman, SiFigma, SiInsomnia,
   SiGrafana, SiPrometheus, SiDatadog, SiSentry, SiOpentelemetry, SiJaeger, SiNewrelic,
+  SiFlask, SiFlutter, SiElectron,
+  SiCypress, SiJest, SiStorybook,
+  SiJsonwebtokens, SiAuth0,
+  SiAstro,
+  SiOpencv, SiTensorflow, SiScikitlearn, SiR,
+  SiPhp,
+  SiCss,
+  SiApache,
+  SiDbeaver,
 } from "react-icons/si";
 import { IconType } from "react-icons";
-import { Cloud } from "lucide-react";
+import { Cloud, Monitor, BarChart3, LayoutGrid, Sword } from "lucide-react";
 
 export const techIconMap: Record<string, IconType | React.ComponentType<{ size?: number; color?: string; style?: React.CSSProperties }>> = {
-  // Frontend
   "React": SiReact,
   "Next.js": SiNextdotjs,
   "Vue.js": SiVuedotjs,
@@ -29,19 +37,32 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Redux": SiRedux,
   "Framer Motion": SiFramer,
   "HTML5": SiHtml5,
+  "HTML": SiHtml5,
+  "CSS": SiCss,
+  "CSS3": SiCss,
   "Bootstrap": SiBootstrap,
   "Chakra UI": SiChakraui,
   "shadcn/ui": SiShadcnui,
+  "ShadCN": SiShadcnui,
   "Material UI": SiMui,
   "React Query": SiReactquery,
+  "Astro": SiAstro,
+  "Electron": SiElectron,
+  "Flutter": SiFlutter,
 
-  // Backend
+  "Jest": SiJest,
+  "Cypress": SiCypress,
+  "Playwright": Sword,
+  "Storybook": SiStorybook,
+
+  "Java": SiApache,
   "Node.js": SiNodedotjs,
   "Express.js": SiExpress,
   "NestJS": SiNestjs,
   "Python": SiPython,
   "FastAPI": SiFastapi,
   "Django": SiDjango,
+  "Flask": SiFlask,
   "Go": SiGo,
   "GraphQL": SiGraphql,
   "Laravel": SiLaravel,
@@ -50,8 +71,12 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Prisma": SiPrisma,
   "Fastify": SiFastify,
   "CodeIgniter 4": SiCodeigniter,
+  "PHP": SiPhp,
+  "R": SiR,
 
-  // Database
+  "JWT": SiJsonwebtokens,
+  "OAuth": SiAuth0,
+
   "PostgreSQL": SiPostgresql,
   "MySQL": SiMysql,
   "MongoDB": SiMongodb,
@@ -62,8 +87,8 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "SQLite": SiSqlite,
   "ClickHouse": SiClickhouse,
   "PlanetScale": SiPlanetscale,
+  "Convex": LayoutGrid,
 
-  // DevOps
   "Docker": SiDocker,
   "Kubernetes": SiKubernetes,
   "GitHub Actions": SiGithubactions,
@@ -74,11 +99,11 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Linux": SiLinux,
   "Terraform": SiTerraform,
 
-  // Data
   "Apache Spark": SiApachespark,
   "PySpark": SiApachespark,
   "Apache Kafka": SiApachekafka,
   "Airflow": SiApacheairflow,
+  "Apache Airflow": SiApacheairflow,
   "dbt": SiDbt,
   "Pandas": SiPandas,
   "NumPy": SiNumpy,
@@ -88,8 +113,12 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "DVC": SiDvc,
   "Trino": SiTrino,
   "MinIO": SiMinio,
+  "Power BI": BarChart3,
+  "Tableau": BarChart3,
+  "TensorFlow": SiTensorflow,
+  "Scikit-learn": SiScikitlearn,
+  "OpenCV": SiOpencv,
 
-  // Tools
   "Git": SiGit,
   "GitHub": SiGithub,
   "Jira": SiJira,
@@ -98,8 +127,10 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "Postman": SiPostman,
   "Figma": SiFigma,
   "Insomnia": SiInsomnia,
+  "VS Code": Monitor,
+  "DBeaver": SiDbeaver,
+  "XAMPP": SiApache,
 
-  // Monitoring
   "Grafana": SiGrafana,
   "Prometheus": SiPrometheus,
   "Datadog": SiDatadog,
@@ -110,7 +141,6 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
 };
 
 export const techColorMap: Record<string, string> = {
-  // Frontend
   "React": "#61DAFB",
   "Next.js": "#ffffff",
   "Vue.js": "#4FC08D",
@@ -121,20 +151,32 @@ export const techColorMap: Record<string, string> = {
   "Redux": "#764ABC",
   "Framer Motion": "#FF0055",
   "HTML5": "#E34F26",
+  "HTML": "#E34F26",
+  "CSS": "#1572B6",
+  "CSS3": "#1572B6",
   "Bootstrap": "#7952B3",
   "Chakra UI": "#319795",
   "shadcn/ui": "#e2e8f0",
+  "ShadCN": "#e2e8f0",
   "Material UI": "#007FFF",
   "React Query": "#FF4154",
   "Zustand": "#f97316",
+  "Astro": "#FF5D01",
+  "Electron": "#47848F",
+  "Flutter": "#02569B",
 
-  // Backend
+  "Jest": "#C21325",
+  "Cypress": "#69D3A7",
+  "Playwright": "#2EAD33",
+  "Storybook": "#FF4785",
+
   "Node.js": "#339933",
   "Express.js": "#e2e8f0",
   "NestJS": "#E0234E",
   "Python": "#3776AB",
   "FastAPI": "#009688",
   "Django": "#44B78B",
+  "Flask": "#e2e8f0",
   "Go": "#00ADD8",
   "GraphQL": "#E10098",
   "Laravel": "#FF2D20",
@@ -145,13 +187,15 @@ export const techColorMap: Record<string, string> = {
   "gRPC": "#6aaa64",
   "Protocol Buffers": "#a371f7",
   "JWT": "#FB015B",
+  "OAuth": "#EB5424",
   "Clerk": "#6C47FF",
   "Prisma": "#5a67d8",
   "Fastify": "#e2e8f0",
   "CodeIgniter 4": "#EF4223",
   "NATS JetStream": "#27AAE1",
+  "PHP": "#777BB4",
+  "R": "#276DC3",
 
-  // Database
   "PostgreSQL": "#4169E1",
   "MySQL": "#4479A1",
   "MongoDB": "#47A248",
@@ -166,7 +210,6 @@ export const techColorMap: Record<string, string> = {
   "PlanetScale": "#a371f7",
   "Convex": "#F9826C",
 
-  // DevOps
   "Docker": "#2496ED",
   "Kubernetes": "#326CE5",
   "AWS": "#FF9900",
@@ -178,11 +221,11 @@ export const techColorMap: Record<string, string> = {
   "CI/CD": "#58a6ff",
   "GitHub Actions": "#2088FF",
 
-  // Data
   "Apache Spark": "#E25A1C",
   "PySpark": "#E25A1C",
   "Apache Kafka": "#7c8cf8",
   "Airflow": "#017CEE",
+  "Apache Airflow": "#017CEE",
   "dbt": "#FF694B",
   "Pandas": "#5C0091",
   "NumPy": "#4DABCF",
@@ -197,8 +240,10 @@ export const techColorMap: Record<string, string> = {
   "Delta Lake": "#00ADD8",
   "Debezium": "#E0234E",
   "Great Expectations": "#2ECC71",
+  "TensorFlow": "#FF6F00",
+  "Scikit-learn": "#F7931E",
+  "OpenCV": "#5C3EE8",
 
-  // Tools
   "VS Code": "#007ACC",
   "Postman": "#FF6C37",
   "Figma": "#F24E1E",
@@ -211,8 +256,10 @@ export const techColorMap: Record<string, string> = {
   "APIDog": "#a371f7",
   "TablePlus": "#3fb950",
   "Insomnia": "#4000BF",
+  "XAMPP": "#FB7A24",
+  "EdgeStore": "#58a6ff",
+  "GetStream": "#005FFF",
 
-  // Monitoring
   "Grafana": "#F46800",
   "Prometheus": "#E6522C",
   "Datadog": "#632CA6",

@@ -80,7 +80,7 @@ export function Hero() {
               >
                 <span style={{ display: "inline-block", width: "28px", height: "2px", background: "var(--blue)", borderRadius: "2px" }} />
                 <span style={{ fontSize: "0.75rem", fontWeight: 700, letterSpacing: "0.12em", textTransform: "uppercase", color: "var(--blue)" }}>
-                  Portfolio — 2025
+                  Portfolio — 2026
                 </span>
               </motion.div>
 
