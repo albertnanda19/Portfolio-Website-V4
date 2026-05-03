@@ -61,6 +61,9 @@ export const techStack = {
     { name: "OAuth", icon: "" },
     { name: "Clerk", icon: "" },
     { name: "Prisma", icon: "" },
+    { name: "Go Fiber", icon: "" },
+    { name: "Strapi", icon: "" },
+    { name: "WordPress", icon: "" },
   ],
   database: [
     { name: "PostgreSQL", icon: "" },
@@ -123,6 +126,7 @@ export const techStack = {
     { name: "TablePlus", icon: "" },
     { name: "Insomnia", icon: "" },
     { name: "XAMPP", icon: "" },
+    { name: "LaTeX", icon: "" },
     { name: "Jira", icon: "" },
     { name: "Notion", icon: "" },
     { name: "Slack", icon: "" },
@@ -631,14 +635,25 @@ export const projects: Project[] = [
 
 export const experiences = [
   {
+    id: 0,
+    role: "Frontend Engineer",
+    company: "Dibimbing.ID — Cakrawala University",
+    type: "Full-time",
+    period: "Jan 2026 – Present",
+    description:
+      "Serving as Frontend Engineer at Dibimbing.ID, an education technology company building Cakrawala University from the ground up. Responsible for architecting and developing the entire frontend ecosystem of four core university systems: SIAKAD (Academic Information System), SPMB (Student Admission System), Edlink (Learning Management System), and the Cakrawala University Landing Page. Despite the frontend role title, actively contributing to the backend development using Go Fiber with PostgreSQL, Redis, and Kafka for event-driven communication between services. Leading frontend technical decisions including component library standardization, design system implementation, and cross-application state management patterns. Building responsive, accessible interfaces with Next.js, Chakra UI, Tailwind CSS, shadcn/ui, and Astro for the static landing page powered by Strapi CMS.",
+    tech: ["Next.js", "Chakra UI", "Tailwind CSS", "shadcn/ui", "Astro", "Strapi", "Go Fiber", "PostgreSQL", "Redis", "Apache Kafka", "TypeScript", "REST API"],
+    current: true,
+  },
+  {
     id: 1,
     role: "Frontend Developer",
     company: "JA Software Solutions LIMITED",
     type: "Full-time",
     period: "Apr 2025 – Dec 2026",
     description:
-      "Built high-performance, data-intensive interfaces for a Web3 trading and analytics platform (Nova). Optimized UI responsiveness and ensured stability under real-time, high-frequency data updates.",
-    tech: ["React", "TypeScript", "Web3", "Real-time APIs", "Tailwind CSS"],
+      "Built high-performance, data-intensive interfaces for Nova — a Web3 trading and analytics platform serving real-time market data. Engineered UI components capable of handling high-frequency data updates with sub-100ms render cycles, ensuring smooth interactions under heavy WebSocket traffic. Collaborated with backend and blockchain teams to integrate wallet connections, transaction history visualization, and live order book rendering. Implemented advanced performance optimization techniques including virtualized lists, memoization strategies, and Web Worker offloading for CPU-intensive data transformations. Delivered pixel-perfect responsive layouts across desktop and mobile viewports while maintaining consistent UX under varying network conditions.",
+    tech: ["React", "TypeScript", "Tailwind CSS", "Web3", "WebSocket", "REST API"],
     current: false,
   },
   {
@@ -648,41 +663,52 @@ export const experiences = [
     type: "Organization",
     period: "Aug 2024 – Nov 2024",
     description:
-      "Led multiple teams across four parallel projects within the university IT student organization. Responsible for technical planning, system architecture decisions, cross-team coordination, and resolving complex technical challenges.",
-    tech: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL"],
+      "Led the technical division of the university's premier IT student organization, overseeing four concurrent development projects with dedicated Dev Lead for each team. Defined technical roadmaps, established coding standards, conducted architecture reviews, and resolved cross-team blockers to ensure all projects shipped on schedule. The four projects under my leadership: (1) Report Formatter — automated thesis formatting tool that generates KTIS-compliant academic papers using LaTeX templating; (2) Techoverse — a metaverse game simulating Universitas Sam Ratulangi's campus environment; (3) Spark — an LLM development project fine-tuning Meta's Llama pre-trained model for domain-specific use cases; (4) Crypnity — a cryptocurrency coin (Unybit) built on the Solana blockchain. Managed sprint planning, technical mentoring, and stakeholder presentations across all teams.",
+    tech: ["React", "Next.js", "TypeScript", "Node.js", "PostgreSQL", "LaTeX", "Solana", "Python"],
     current: false,
   },
   {
     id: 3,
+    role: "Dev Lead — Crypnity",
+    company: "UNITY – UKM Mahasiswa IT UNSRAT",
+    type: "Organization",
+    period: "Aug 2024 – Nov 2024",
+    description:
+      "Concurrently served as Development Lead for Crypnity, one of the four projects under the UNITY Tech Lead umbrella. Led a team of developers to build Unybit — a cryptocurrency token deployed on the Solana blockchain network. Directed the full development lifecycle from smart contract design to frontend dashboard implementation. Managed technical architecture decisions, coordinated with the broader Tech Lead structure for resource allocation, and presented project milestones to faculty advisors and organization stakeholders. Delivered a functional token with wallet integration, transaction tracking, and a landing page showcasing the project's vision.",
+    tech: ["React", "TypeScript", "Solana", "Node.js", "Tailwind CSS"],
+    current: false,
+  },
+  {
+    id: 4,
     role: "Senior Frontend Developer",
     company: "PT. UNITY Membangun Bangsa",
     type: "Full-time",
     period: "Feb 2024 – Jul 2026",
     description:
-      "Led frontend architecture decisions and enforced code quality standards on Renify, a professional product. Mentored junior developers and collaborated closely with backend and product teams to deliver production-grade features.",
-    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "REST API"],
+      "Led frontend architecture decisions and enforced code quality standards on Renify — a professional SaaS product serving enterprise clients. Established component design patterns, implemented comprehensive code review workflows, and mentored three junior developers through pair programming sessions and technical knowledge sharing. Drove the migration from legacy patterns to modern React best practices including server components, optimistic UI updates, and advanced caching strategies. Collaborated closely with backend engineers and product managers in agile sprints to deliver production-grade features with high test coverage. Reduced page load times by 40% through bundle optimization, lazy loading, and image optimization strategies.",
+    tech: ["React", "Next.js", "TypeScript", "Tailwind CSS", "REST API", "Redux", "Jest"],
     current: false,
   },
   {
-    id: 4,
+    id: 5,
     role: "Backend Developer Intern",
     company: "Bank BTN – Manado Branch",
     type: "Internship",
     period: "Jan 2024 – Mar 2024",
     description:
-      "Contributed to BTN Boost, an internal KPI monitoring system. Implemented business logic for KPI calculations, performance tracking, and data processing to support branch-level operational analysis.",
+      "Contributed to BTN Boost — an internal KPI monitoring and performance tracking system used by the Manado branch for operational analysis. Implemented core business logic for KPI calculations, employee performance scoring algorithms, and automated report generation pipelines. Built RESTful API endpoints handling complex data aggregation queries across multiple database tables. Gained hands-on experience in enterprise software development practices including version control workflows, code reviews, and documentation standards. Collaborated with branch managers to translate business requirements into technical specifications and delivered features within tight sprint deadlines.",
     tech: ["Node.js", "Express.js", "MySQL", "REST API"],
     current: false,
   },
   {
-    id: 5,
+    id: 6,
     role: "Frontend Developer",
     company: "UNITY – UKM Mahasiswa IT UNSRAT",
     type: "Organization",
     period: "Jul 2023 – Nov 2023",
     description:
-      "Contributed as frontend developer in a university IT student organization, developing a web-based academic report formatting application. Focused on implementing structured UI components and ensuring consistent document formatting.",
-    tech: ["React", "JavaScript", "HTML", "CSS", "Tailwind CSS"],
+      "Contributed as frontend developer in the university IT student organization's annual project cycle, working on Report Formatter — a web-based academic report formatting application. Built structured UI components for document editing, template selection, and real-time preview rendering. Implemented the KTIS (Karya Tulis Ilmiah Sarjana) formatting rules as configurable templates, enabling students to generate properly formatted thesis documents automatically. Collaborated with the team's backend developers on API integration and participated in weekly sprint reviews. This experience laid the foundation for my technical leadership role in the following year.",
+    tech: ["React", "JavaScript", "HTML", "CSS", "Tailwind CSS", "LaTeX"],
     current: false,
   },
 ];

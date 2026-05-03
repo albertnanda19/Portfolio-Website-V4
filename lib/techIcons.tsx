@@ -22,9 +22,10 @@ import {
   SiCss,
   SiApache,
   SiDbeaver,
+  SiStrapi, SiWordpress, SiLatex, SiSolana,
 } from "react-icons/si";
 import { IconType } from "react-icons";
-import { Cloud, Monitor, BarChart3, LayoutGrid, Sword } from "lucide-react";
+import { Cloud, Monitor, BarChart3, LayoutGrid, Sword, Hexagon } from "lucide-react";
 
 export const techIconMap: Record<string, IconType | React.ComponentType<{ size?: number; color?: string; style?: React.CSSProperties }>> = {
   "React": SiReact,
@@ -138,6 +139,13 @@ export const techIconMap: Record<string, IconType | React.ComponentType<{ size?:
   "OpenTelemetry": SiOpentelemetry,
   "Jaeger": SiJaeger,
   "New Relic": SiNewrelic,
+
+  "Strapi": SiStrapi,
+  "WordPress": SiWordpress,
+  "LaTeX": SiLatex,
+  "Solana": SiSolana,
+  "Go Fiber": SiGo,
+  "NATS JetStream": Hexagon,
 };
 
 export const techColorMap: Record<string, string> = {
@@ -269,4 +277,10 @@ export const techColorMap: Record<string, string> = {
   "Jaeger": "#60D0E4",
   "OpenTelemetry": "#f5a800",
   "Zipkin": "#FE8A00",
+
+  "Strapi": "#4945FF",
+  "WordPress": "#21759B",
+  "LaTeX": "#008080",
+  "Solana": "#9945FF",
+  "Go Fiber": "#00ADD8",
 };
