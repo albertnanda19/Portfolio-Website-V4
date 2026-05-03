@@ -5,6 +5,7 @@ import { useInView } from "react-intersection-observer";
 import { TiltCard } from "@/components/ui/TiltCard";
 import { Terminal } from "@/components/ui/Terminal";
 import { EncryptedTextOnView } from "@/components/ui/EncryptedText";
+import { Particles3D } from "@/components/ui/Particles3D";
 
 const highlights = [
   { icon: "🚀", title: "6+ Years", sub: "Professional experience" },
@@ -23,6 +24,7 @@ export function About() {
 
   return (
     <section id="about" ref={ref} style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}>
+      <Particles3D count={55} speed={1.2} style={{ opacity: 0.35 }} />
       {/* Decorative ghost text */}
       <div style={{
         position: "absolute", right: "-2%", top: "50%", transform: "translateY(-50%)",

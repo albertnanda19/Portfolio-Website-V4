@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { WobbleCard } from "@/components/ui/WobbleCard";
+import { Particles3D } from "@/components/ui/Particles3D";
 
 const features = [
   {
@@ -63,7 +64,8 @@ export function Features() {
   const { ref, inView } = useInView({ threshold: 0.06, triggerOnce: true });
 
   return (
-    <section ref={ref} style={{ padding: "100px 0", position: "relative" }}>
+    <section ref={ref} style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}>
+      <Particles3D count={50} speed={1.1} style={{ opacity: 0.3 }} />
       <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0 32px" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

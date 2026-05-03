@@ -6,6 +6,7 @@ import { useInView } from "react-intersection-observer";
 import { techStack } from "@/lib/data";
 import { techIconMap, techColorMap } from "@/lib/techIcons";
 import { EncryptedTextOnView } from "@/components/ui/EncryptedText";
+import { Particles3D } from "@/components/ui/Particles3D";
 
 type Category = keyof typeof techStack;
 
@@ -76,6 +77,7 @@ export function TechStack() {
       className="grid-dots"
       style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}
     >
+      <Particles3D count={60} speed={1.3} style={{ opacity: 0.28 }} />
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         background: `radial-gradient(ellipse at 50% 60%, ${activeCat.color}08, transparent 55%)`,

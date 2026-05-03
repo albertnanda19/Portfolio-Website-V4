@@ -255,6 +255,10 @@ body {
 .nav-mobile-menu { display: block; }
 @media (min-width: 768px) { .nav-mobile-menu { display: none; } }
 
+/* Hide scrollbar utility */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
 /* Noise overlay */
 .noise-overlay {
   position: fixed;

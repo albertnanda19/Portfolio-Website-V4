@@ -33,33 +33,88 @@ const lines: TerminalLine[] = [
   { type: "output", text: "OPEN_TO_WORK=true  |  AVAILABLE_NOW=true", color: "#58a6ff" },
 ];
 
-function useTypingSound(muted: boolean) {
+function useMechanicalSound(muted: boolean) {
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-  const playClick = useCallback(() => {
+  const playKeyClick = useCallback(() => {
     if (muted) return;
     try {
       if (!audioCtxRef.current) {
-        audioCtxRef.current = new (window.AudioContext || (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext)();
+        audioCtxRef.current = new (
+          window.AudioContext ||
+          (window as unknown as { webkitAudioContext: typeof AudioContext }).webkitAudioContext
+        )();
       }
       const ctx = audioCtxRef.current;
-      const osc = ctx.createOscillator();
-      const gain = ctx.createGain();
-      osc.connect(gain);
-      gain.connect(ctx.destination);
-      osc.type = "square";
-      osc.frequency.setValueAtTime(1200, ctx.currentTime);
-      osc.frequency.exponentialRampToValueAtTime(600, ctx.currentTime + 0.03);
-      gain.gain.setValueAtTime(0.04, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.04);
-      osc.start(ctx.currentTime);
-      osc.stop(ctx.currentTime + 0.05);
+      const now = ctx.currentTime;
+
+      // === CLICK: high-freq noise (plastic key mechanism) ===
+      const clickLen = Math.floor(ctx.sampleRate * 0.022);
+      const clickBuf = ctx.createBuffer(1, clickLen, ctx.sampleRate);
+      const clickData = clickBuf.getChannelData(0);
+      for (let i = 0; i < clickLen; i++) {
+        clickData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (clickLen * 0.25));
+      }
+      const clickSrc = ctx.createBufferSource();
+      clickSrc.buffer = clickBuf;
+
+      const bp = ctx.createBiquadFilter();
+      bp.type = "bandpass";
+      bp.frequency.value = 3200;
+      bp.Q.value = 0.7;
+
+      const clickGain = ctx.createGain();
+      clickGain.gain.setValueAtTime(0.28, now);
+      clickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.035);
+
+      clickSrc.connect(bp);
+      bp.connect(clickGain);
+      clickGain.connect(ctx.destination);
+      clickSrc.start(now);
+
+      // === THOCK: low-freq noise (key bottom-out resonance) ===
+      const thockLen = Math.floor(ctx.sampleRate * 0.05);
+      const thockBuf = ctx.createBuffer(1, thockLen, ctx.sampleRate);
+      const thockData = thockBuf.getChannelData(0);
+      for (let i = 0; i < thockLen; i++) {
+        thockData[i] = (Math.random() * 2 - 1) * Math.exp(-i / (thockLen * 0.35));
+      }
+      const thockSrc = ctx.createBufferSource();
+      thockSrc.buffer = thockBuf;
+
+      const lp = ctx.createBiquadFilter();
+      lp.type = "lowpass";
+      lp.frequency.value = 380;
+
+      const thockGain = ctx.createGain();
+      thockGain.gain.setValueAtTime(0.18, now + 0.004);
+      thockGain.gain.exponentialRampToValueAtTime(0.001, now + 0.07);
+
+      thockSrc.connect(lp);
+      lp.connect(thockGain);
+      thockGain.connect(ctx.destination);
+      thockSrc.start(now + 0.003);
+
+      // === ATTACK TRANSIENT: very short high tick ===
+      const tickOsc = ctx.createOscillator();
+      tickOsc.type = "square";
+      tickOsc.frequency.setValueAtTime(1800, now);
+      tickOsc.frequency.exponentialRampToValueAtTime(600, now + 0.008);
+
+      const tickGain = ctx.createGain();
+      tickGain.gain.setValueAtTime(0.032, now);
+      tickGain.gain.exponentialRampToValueAtTime(0.001, now + 0.012);
+
+      tickOsc.connect(tickGain);
+      tickGain.connect(ctx.destination);
+      tickOsc.start(now);
+      tickOsc.stop(now + 0.015);
     } catch {
       // AudioContext unavailable
     }
   }, [muted]);
 
-  return playClick;
+  return playKeyClick;
 }
 
 export function Terminal() {
@@ -68,27 +123,34 @@ export function Terminal() {
   const [showCursor, setShowCursor] = useState(true);
   const [muted, setMuted] = useState(false);
   const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const playClick = useTypingSound(muted);
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const playKeyClick = useMechanicalSound(muted);
+
+  // Auto-scroll to bottom on each new line
+  useEffect(() => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  }, [visibleCount]);
 
   const runLoop = useCallback(() => {
     let i = 0;
     const tick = () => {
       if (i < lines.length) {
         setVisibleCount(++i);
-        playClick();
+        playKeyClick();
         const line = lines[i - 1];
-        const delay = line.type === "blank" ? 80 : line.type === "command" ? 220 : 100;
+        const delay = line.type === "blank" ? 80 : line.type === "command" ? 230 : 110;
         timerRef.current = setTimeout(tick, delay);
       } else {
-        // Pause then restart
         timerRef.current = setTimeout(() => {
           setVisibleCount(0);
           timerRef.current = setTimeout(runLoop, 300);
-        }, 2200);
+        }, 2400);
       }
     };
     timerRef.current = setTimeout(tick, 400);
-  }, [playClick]);
+  }, [playKeyClick]);
 
   useEffect(() => {
     if (!inView) return;
@@ -129,15 +191,13 @@ export function Terminal() {
         <span style={{ flex: 1, textAlign: "center", fontSize: "0.8125rem", color: "var(--fg-subtle)", letterSpacing: "0.02em" }}>
           albert@portfolio ~ bash
         </span>
-        {/* Mute toggle */}
         <button
           onClick={() => setMuted((m) => !m)}
           style={{
             background: "transparent", border: "none", cursor: "pointer",
             color: muted ? "var(--fg-subtle)" : "var(--blue)",
             display: "flex", alignItems: "center", justifyContent: "center",
-            padding: "2px", borderRadius: "4px",
-            transition: "color 0.2s",
+            padding: "2px", borderRadius: "4px", transition: "color 0.2s",
           }}
           title={muted ? "Unmute typing sound" : "Mute typing sound"}
         >
@@ -145,8 +205,12 @@ export function Terminal() {
         </button>
       </div>
 
-      {/* Lines */}
-      <div style={{ padding: "20px 22px", minHeight: "280px" }}>
+      {/* Fixed-height scrolling lines area */}
+      <div
+        ref={scrollRef}
+        className="no-scrollbar"
+        style={{ padding: "20px 22px", height: "288px", overflowY: "auto" }}
+      >
         {lines.slice(0, visibleCount).map((line, i) => (
           <div key={i} style={{ lineHeight: 1.7, marginBottom: line.type === "blank" ? "4px" : "0" }}>
             {line.type === "command" && (
@@ -167,7 +231,6 @@ export function Terminal() {
           </div>
         ))}
 
-        {/* Cursor */}
         <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
           <span style={{ color: "#3fb950", userSelect: "none" }}>❯</span>
           <span style={{

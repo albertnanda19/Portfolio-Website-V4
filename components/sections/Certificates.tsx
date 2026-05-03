@@ -4,12 +4,14 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { certificates } from "@/lib/data";
 import { ExternalLink, Award } from "lucide-react";
+import { Particles3D } from "@/components/ui/Particles3D";
 
 export function Certificates() {
   const { ref, inView } = useInView({ threshold: 0.08, triggerOnce: true });
 
   return (
     <section id="certificates" ref={ref} style={{ padding: "96px 0", position: "relative", overflow: "hidden" }}>
+      <Particles3D count={40} speed={0.9} style={{ opacity: 0.2 }} />
       <div style={{
         position: "absolute", inset: 0, pointerEvents: "none",
         background: "radial-gradient(ellipse at center bottom, rgba(210,153,34,0.06), transparent 65%)",

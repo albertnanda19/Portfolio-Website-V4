@@ -7,6 +7,7 @@ import { projects } from "@/lib/data";
 import { ExternalLink } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
 import { TiltCard } from "@/components/ui/TiltCard";
+import { Particles3D } from "@/components/ui/Particles3D";
 
 function ProjectCard({ project, index }: { project: (typeof projects)[0]; index: number }) {
   const { ref, inView } = useInView({ threshold: 0.08, triggerOnce: true });
@@ -137,8 +138,9 @@ export function Projects() {
   const visibleRegular = showAll ? regularProjects : regularProjects.slice(0, 3);
 
   return (
-    <section id="projects" ref={ref} style={{ padding: "100px 0", position: "relative" }}>
+    <section id="projects" ref={ref} style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}>
       <div style={{ position: "absolute", inset: 0, pointerEvents: "none" }} className="grid-lines" />
+      <Particles3D count={45} speed={1.0} style={{ opacity: 0.25 }} />
 
       <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0 32px", position: "relative" }}>
         <motion.div

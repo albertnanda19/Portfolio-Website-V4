@@ -6,6 +6,8 @@ import { TypewriterText } from "@/components/ui/AnimatedText";
 import { EncryptedText } from "@/components/ui/EncryptedText";
 import { ASCIIArt } from "@/components/ui/ASCIIArt";
 import { BeamBackground } from "@/components/ui/BeamBackground";
+import { PerspectiveGrid3D } from "@/components/ui/PerspectiveGrid3D";
+import { Particles3D } from "@/components/ui/Particles3D";
 import { roles } from "@/lib/data";
 import dynamic from "next/dynamic";
 
@@ -40,14 +42,13 @@ export function Hero() {
         background: "var(--bg-canvas)",
       }}
     >
-      {/* Grid dots */}
-      <div style={{
-        position: "absolute", inset: 0, pointerEvents: "none",
-        backgroundImage: "radial-gradient(rgba(88,166,255,0.08) 1px, transparent 1px)",
-        backgroundSize: "26px 26px",
-      }} />
+      {/* 3D perspective grid floor */}
+      <PerspectiveGrid3D horizonAt={0.62} style={{ opacity: 0.9 }} />
 
-      <BeamBackground count={10} />
+      {/* 3D particle starfield */}
+      <Particles3D count={70} speed={1.4} style={{ opacity: 0.55 }} />
+
+      <BeamBackground count={8} />
 
       {/* Ambient */}
       <div style={{ position: "absolute", inset: 0, overflow: "hidden", pointerEvents: "none" }}>
