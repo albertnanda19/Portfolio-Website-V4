@@ -1,13 +1,195 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import { useInView } from "react-intersection-observer";
+import { useState, useEffect, useCallback } from "react";
 import { certificates } from "@/lib/data";
-import { ExternalLink, Award } from "lucide-react";
+import { Award, X, ChevronLeft, ChevronRight } from "lucide-react";
 import { WaveDotsBg } from "@/components/ui/WaveDotsBg";
+
+function CertificateLightbox({
+  certs,
+  initialIndex,
+  onClose,
+}: {
+  certs: typeof certificates;
+  initialIndex: number;
+  onClose: () => void;
+}) {
+  const [idx, setIdx] = useState(initialIndex);
+  const cert = certs[idx];
+
+  const goPrev = useCallback(() => setIdx((i) => (i - 1 + certs.length) % certs.length), [certs.length]);
+  const goNext = useCallback(() => setIdx((i) => (i + 1) % certs.length), [certs.length]);
+
+  useEffect(() => {
+    const handler = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+      if (e.key === "ArrowLeft") goPrev();
+      if (e.key === "ArrowRight") goNext();
+    };
+    document.addEventListener("keydown", handler);
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.removeEventListener("keydown", handler);
+      document.body.style.overflow = "";
+    };
+  }, [onClose, goPrev, goNext]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.2 }}
+      onClick={onClose}
+      style={{
+        position: "fixed",
+        inset: 0,
+        background: "rgba(0,0,0,0.92)",
+        backdropFilter: "blur(16px)",
+        zIndex: 9500,
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        padding: "20px",
+        cursor: "zoom-out",
+      }}
+    >
+      <button
+        onClick={onClose}
+        style={{
+          position: "absolute",
+          top: "20px",
+          right: "20px",
+          background: "rgba(255,255,255,0.08)",
+          border: "1px solid rgba(255,255,255,0.15)",
+          borderRadius: "50%",
+          width: "40px",
+          height: "40px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          cursor: "pointer",
+          color: "white",
+          zIndex: 10,
+        }}
+      >
+        <X size={18} />
+      </button>
+
+      <div
+        style={{
+          position: "absolute",
+          top: "24px",
+          left: "50%",
+          transform: "translateX(-50%)",
+          color: "rgba(255,255,255,0.6)",
+          fontSize: "0.8125rem",
+          fontWeight: 600,
+          textAlign: "center",
+          maxWidth: "80%",
+        }}
+      >
+        {cert.title} — {cert.issuer}
+      </div>
+
+      <AnimatePresence mode="wait">
+        <motion.img
+          key={idx}
+          src={cert.image}
+          alt={cert.title}
+          onClick={(e) => e.stopPropagation()}
+          style={{
+            maxWidth: "92vw",
+            maxHeight: "80vh",
+            objectFit: "contain",
+            borderRadius: "12px",
+            cursor: "default",
+            boxShadow: "0 32px 80px rgba(0,0,0,0.6)",
+          }}
+          initial={{ opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          exit={{ opacity: 0, scale: 0.95 }}
+          transition={{ duration: 0.2 }}
+        />
+      </AnimatePresence>
+
+      <div
+        onClick={(e) => e.stopPropagation()}
+        style={{
+          marginTop: "16px",
+          color: "rgba(255,255,255,0.5)",
+          fontSize: "0.8125rem",
+          textAlign: "center",
+          cursor: "default",
+        }}
+      >
+        Issued {cert.date} · {idx + 1} / {certs.length}
+      </div>
+
+      {certs.length > 1 && (
+        <>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              goPrev();
+            }}
+            style={{
+              position: "absolute",
+              left: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: "50%",
+              width: "48px",
+              height: "48px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "white",
+              zIndex: 10,
+            }}
+          >
+            <ChevronLeft size={22} />
+          </button>
+          <button
+            onClick={(e) => {
+              e.stopPropagation();
+              goNext();
+            }}
+            style={{
+              position: "absolute",
+              right: "20px",
+              top: "50%",
+              transform: "translateY(-50%)",
+              background: "rgba(255,255,255,0.08)",
+              border: "1px solid rgba(255,255,255,0.15)",
+              borderRadius: "50%",
+              width: "48px",
+              height: "48px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              cursor: "pointer",
+              color: "white",
+              zIndex: 10,
+            }}
+          >
+            <ChevronRight size={22} />
+          </button>
+        </>
+      )}
+    </motion.div>
+  );
+}
 
 export function Certificates() {
   const { ref, inView } = useInView({ threshold: 0.08, triggerOnce: true });
+  const [lightboxIndex, setLightboxIndex] = useState<number | null>(null);
 
   return (
     <section id="certificates" ref={ref} style={{ padding: "96px 0", position: "relative", overflow: "hidden" }}>
@@ -35,11 +217,9 @@ export function Certificates() {
 
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(300px, 1fr))", gap: "20px" }}>
           {certificates.map((cert, i) => (
-            <motion.a
+            <motion.div
               key={cert.id}
-              href={cert.link}
-              target="_blank"
-              rel="noopener noreferrer"
+              onClick={() => setLightboxIndex(i)}
               style={{
                 display: "flex",
                 flexDirection: "column",
@@ -47,9 +227,9 @@ export function Certificates() {
                 background: "var(--bg-card)",
                 border: "1px solid var(--border)",
                 borderRadius: "18px",
-                textDecoration: "none",
                 color: "var(--fg)",
                 transition: "all 0.25s",
+                cursor: "pointer",
               }}
               initial={{ opacity: 0, y: 36 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -60,7 +240,6 @@ export function Certificates() {
                 boxShadow: "0 20px 50px rgba(210,153,34,0.1)",
               }}
             >
-              {/* Icon */}
               <div style={{
                 width: "48px", height: "48px",
                 borderRadius: "12px",
@@ -72,7 +251,6 @@ export function Certificates() {
                 <Award size={22} style={{ color: "var(--orange)" }} />
               </div>
 
-              {/* Certificate image */}
               <div style={{
                 aspectRatio: "16/9",
                 borderRadius: "10px",
@@ -94,22 +272,23 @@ export function Certificates() {
               <p style={{ fontSize: "0.9rem", color: "var(--blue)", fontWeight: 500, marginBottom: "4px" }}>
                 {cert.issuer}
               </p>
-              <p style={{ fontSize: "0.8125rem", color: "var(--fg-subtle)", marginBottom: "20px" }}>
+              <p style={{ fontSize: "0.8125rem", color: "var(--fg-subtle)" }}>
                 Issued {cert.date}
               </p>
-
-              <div style={{
-                display: "flex", alignItems: "center", gap: "6px",
-                fontSize: "0.875rem", color: "var(--fg-subtle)",
-                marginTop: "auto",
-              }}>
-                <ExternalLink size={13} />
-                View credential
-              </div>
-            </motion.a>
+            </motion.div>
           ))}
         </div>
       </div>
+
+      <AnimatePresence>
+        {lightboxIndex !== null && (
+          <CertificateLightbox
+            certs={certificates}
+            initialIndex={lightboxIndex}
+            onClose={() => setLightboxIndex(null)}
+          />
+        )}
+      </AnimatePresence>
     </section>
   );
 }
