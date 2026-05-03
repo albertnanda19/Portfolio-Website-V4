@@ -8,10 +8,12 @@ import { Experience } from "@/components/sections/Experience";
 import { Certificates } from "@/components/sections/Certificates";
 import { Contact } from "@/components/sections/Contact";
 import { CustomCursor } from "@/components/ui/Cursor";
+import { SplashScreen } from "@/components/ui/SplashScreen";
 
 export default function Home() {
   return (
     <>
+      <SplashScreen />
       <CustomCursor />
       <div className="noise-overlay" />
       <Navbar />
