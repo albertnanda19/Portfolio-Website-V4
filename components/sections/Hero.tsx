@@ -46,7 +46,7 @@ export function Hero() {
       <PerspectiveGrid3D horizonAt={0.62} style={{ opacity: 0.9 }} />
 
       {/* 3D particle starfield */}
-      <Particles3D count={70} speed={1.4} style={{ opacity: 0.55 }} />
+      <Particles3D count={100} speed={1.8} style={{ opacity: 0.72 }} />
 
       <BeamBackground count={8} />
 

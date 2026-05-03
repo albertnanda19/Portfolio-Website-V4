@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { SpotlightCard } from "@/components/ui/SpotlightCard";
 import { WobbleCard } from "@/components/ui/WobbleCard";
-import { Particles3D } from "@/components/ui/Particles3D";
+import { WaveDotsBg } from "@/components/ui/WaveDotsBg";
 
 const features = [
   {
@@ -65,7 +65,7 @@ export function Features() {
 
   return (
     <section ref={ref} style={{ padding: "100px 0", position: "relative", overflow: "hidden" }}>
-      <Particles3D count={50} speed={1.1} style={{ opacity: 0.3 }} />
+      <WaveDotsBg spacing={38} amplitude={1.2} waveSpeed={1.0} style={{ opacity: 0.65 }} />
       <div style={{ maxWidth: "1240px", margin: "0 auto", padding: "0 32px" }}>
         <motion.div
           initial={{ opacity: 0, y: 20 }}

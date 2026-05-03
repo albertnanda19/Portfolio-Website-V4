@@ -4,7 +4,7 @@ import { motion } from "framer-motion";
 import { useInView } from "react-intersection-observer";
 import { experiences } from "@/lib/data";
 import { Briefcase, GraduationCap } from "lucide-react";
-import { Particles3D } from "@/components/ui/Particles3D";
+import { ConstellationBg } from "@/components/ui/ConstellationBg";
 
 function TimelineItem({ exp, index }: { exp: (typeof experiences)[0]; index: number }) {
   const { ref, inView } = useInView({ threshold: 0.15, triggerOnce: true });
@@ -145,7 +145,7 @@ export function Experience() {
 
   return (
     <section id="experience" style={{ padding: "96px 0", position: "relative", overflow: "hidden" }}>
-      <Particles3D count={45} speed={1.0} style={{ opacity: 0.22 }} />
+      <ConstellationBg count={50} maxDist={125} speed={0.3} style={{ opacity: 0.60 }} />
       <div style={{ maxWidth: "800px", margin: "0 auto", padding: "0 32px" }}>
         <motion.div
           ref={ref}

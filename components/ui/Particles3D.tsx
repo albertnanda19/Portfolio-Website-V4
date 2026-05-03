@@ -41,29 +41,34 @@ export function Particles3D({ count = 90, speed = 1.8, style }: Props) {
     const project = (x: number, y: number, z: number) => ({
       sx: (x / z) * fov + W / 2,
       sy: (y / z) * fov + H / 2,
-      r: Math.min((fov / z) * 0.8, 2.2),
+      r: Math.min((fov / z) * 1.15, 3.2),
     });
+
+    // Alternate blue/purple per star for visual variety
+    const colors = stars.map(() => Math.random() > 0.35 ? "88,166,255" : "163,113,247");
 
     const draw = () => {
       ctx.clearRect(0, 0, W, H);
 
-      for (const s of stars) {
+      for (let i = 0; i < stars.length; i++) {
+        const s = stars[i];
+        const col = colors[i];
         const cur = project(s.x, s.y, s.z);
-        const prev = project(s.x, s.y, s.z + speed * 6);
-        const alpha = Math.max(0, (1 - s.z / maxZ) * 0.65);
+        const prev = project(s.x, s.y, s.z + speed * 10);
+        const alpha = Math.max(0, (1 - s.z / maxZ) * 0.85);
 
         // Trail
         ctx.beginPath();
         ctx.moveTo(prev.sx, prev.sy);
         ctx.lineTo(cur.sx, cur.sy);
-        ctx.strokeStyle = `rgba(88,166,255,${alpha * 0.45})`;
-        ctx.lineWidth = cur.r * 0.7;
+        ctx.strokeStyle = `rgba(${col},${alpha * 0.55})`;
+        ctx.lineWidth = cur.r * 0.8;
         ctx.stroke();
 
         // Dot
         ctx.beginPath();
-        ctx.arc(cur.sx, cur.sy, Math.max(0.3, cur.r), 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(88,166,255,${alpha})`;
+        ctx.arc(cur.sx, cur.sy, Math.max(0.4, cur.r), 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(${col},${alpha})`;
         ctx.fill();
 
         s.z -= speed;
